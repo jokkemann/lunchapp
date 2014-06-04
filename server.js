@@ -50,6 +50,7 @@ app.get('/get_lunches', function(req, res) {
 
 // Start the server
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-server = app.listen(port, function() {
+var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+server = app.listen(port, ip, function() {
 	console.log('Listening on port %d', server.address().port);
 });
