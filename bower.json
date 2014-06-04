@@ -1,0 +1,22 @@
+{
+  "name": "lunch",
+  "version": "0.0.1",
+  "authors": [
+    "Joakim Svensson <svensson.joakim@gmail.com>"
+  ],
+  "description": "Simple app that shows what's for lunch at restaurant Edison in Lund, Sweden",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16",
+    "bootstrap": "~3.1.1"
+  }
+}
