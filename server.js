@@ -24,24 +24,27 @@ app.get('/', function(req, res) {
 app.get('/get_lunches', function(req, res) {
 	request(edison_options, function (error, response, body) {
 		var	finalLunches = [],
-			$ = cheerio.load(body);
-
-			$('#MyBPControlLayout_Container_535_divContainer p').eq(4).contents().filter(function(i, el) {
+			$ = cheerio.load(body),
+			baseParagraph = $('#MyBPControlLayout_Container_535_divContainer > span p'),
+			paragraph = baseParagraph.eq(0),
+			textNodes = paragraph.contents().filter(function(i, el) {
 				// Filter out everything that is not text elements that actually has text
 				return el.type === 'text' && el.data.trim() !== '';
-			}).each(function(i, el) {
-				var current = el.data.trim(),
-					// Get the first word of the current element (May be "Fredag STÄNGT")
-					currentFirst = current.split(' ')[0],
-					header = 0;
-
-				// Check if this word should be considered a header
-				if (headers.indexOf(currentFirst) >= 0) {
-					header = 1;
-				}
-
-				finalLunches.push({header: header, text: current});
 			});
+
+		textNodes.each(function(i, el) {
+			var current = el.data.trim(),
+				// Get the first word of the current element (May be "Fredag STÄNGT")
+				currentFirst = current.split(' ')[0],
+				header = 0;
+
+			// Check if this word should be considered a header
+			if (headers.indexOf(currentFirst) >= 0) {
+				header = 1;
+			}
+
+			finalLunches.push({header: header, text: current});
+		});
 
 		// Send the response
 		res.send(finalLunches);
