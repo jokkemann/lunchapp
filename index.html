@@ -13,8 +13,16 @@
 		<div ng-controller="LunchCtrl">
 			<ul class="list-unstyled">
 				<li ng-repeat="item in lunchItems">
-					<h4 ng-if="item.header">{{item.text}}</h4>
-					<span ng-if="!item.header">{{item.text}}</span>
+					<h4>{{item.day | uppercase}}</h4>
+					<div ng-if="isArray(item.info)">
+						<table class="table table-condensed">
+							<tr ng-repeat="infoset in item.info">
+								<td>{{infoset.type}}</td>
+								<td>{{infoset.food}}</td>
+							</tr>
+						</table>
+					</div>
+					<!-- <span>{{item.info}}</span> -->
 				</li>
 			</ul>
 		</div>
