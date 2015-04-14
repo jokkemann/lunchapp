@@ -69,6 +69,12 @@ var getLunches = function(req, res) {
 
 app.get('/get_lunches', getLunches);
 
+var clearCache = function(req, res) {
+	weekInfo = {};
+	res.send('Cache was cleared!');
+};
+app.get('/clear_cache', clearCache);
+
 // Start the server
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
