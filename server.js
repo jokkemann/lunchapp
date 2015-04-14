@@ -63,7 +63,7 @@ var getLunches = function(req, res) {
 		}
 
 		// Send the response
-		res.send(weekInfo[week]);
+		res.jsonp(weekInfo[week]);
 	});
 };
 
