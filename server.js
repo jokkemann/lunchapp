@@ -1,12 +1,14 @@
 var request = require('request'),
 	cheerio = require('cheerio'),
 	express = require('express'),
+	moment = require('moment'),
 	app = express(),
 	server,
 	headers = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag'],
 	edison_options = {
 		uri: 'http://restaurangedison.se/lunch'
-	};
+	},
+	weekInfo = {};
 
 // Add a proxy if http_proxy is set in the environment variables
 if (process.env.http_proxy !== undefined) {
@@ -24,8 +26,7 @@ app.get('/', function(req, res) {
 var parseLunches = function(body) {
 	var weeklyInfo = [],
 		$ = cheerio.load(body),
-		days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-		weekElem = $('.week_number').first(); //This one is not needed yet
+		days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
 	days.forEach(function(e, i) {
 		// Get all table rows for a day
@@ -54,10 +55,15 @@ var parseLunches = function(body) {
 var getLunches = function(req, res) {
 	request(edison_options, function (error, response, body) {
 		
-		var weeklyInfo = parseLunches(body);
+		// Cache the weeklyInfo
+		var week = moment().week();
+		if (weekInfo[week] === undefined) {
+			var weeklyInfo = parseLunches(body);
+			weekInfo[week] = weeklyInfo;
+		}
 
 		// Send the response
-		res.send(weeklyInfo);
+		res.send(weekInfo[week]);
 	});
 };
 
