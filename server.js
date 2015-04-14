@@ -30,7 +30,7 @@ var parseLunches = function(body) {
 
 	days.forEach(function(e, i) {
 		// Get all table rows for a day
-		var $dayTableRows = $('div#'+e+' tr'),
+		var $dayTableRows = $('div#'+e+' > table tr'),
 		dayInfo = [];
 
 		$dayTableRows.each(function(i, e){
