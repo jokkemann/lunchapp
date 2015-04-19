@@ -23,53 +23,26 @@ app.get('/', function(req, res) {
 	res.sendFile('index.html');
 });
 
-var parseLunches = function(body) {
-	var weeklyInfo = [],
-		$ = cheerio.load(body),
-		days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-
-	days.forEach(function(e, i) {
-		// Get all table rows for a day
-		var $dayTableRows = $('div#'+e+' > table tr'),
-		dayInfo = [];
-
-		$dayTableRows.each(function(i, e){
-			var $this = $(this),
-			type = $this.find('.course_type').text(),
-			food = $this.find('.course_description').text();
-			dayInfo.push({
-				type: type,
-				food: food
-			});
-		});
-
-		weeklyInfo.push({
-			day: e,
-			info: dayInfo
-		});
-	});
-
-	return weeklyInfo;	
-}
-
-var getLunches = function(req, res) {
-	request(edison_options, function (error, response, body) {
-		
-		// Cache the weeklyInfo
-		var week = moment().week();
-		if (weekInfo[week] === undefined) {
-			var weeklyInfo = parseLunches(body);
-			weekInfo[week] = weeklyInfo;
+var newGet = function(req, res) {
+	var lunches = require('./lib/lunchGetter');
+	var restaurant = 'edison'; //default to edison
+	if (req.query.restaurant) {
+		restaurant = req.query.restaurant;
+	}
+	var data = lunches.getLunchesFromRestaurant(restaurant, function(err, data) {
+		if (err){
+			return res.status(401).send(err);
 		}
-
-		// Send the response
-		res.jsonp(weekInfo[week]);
+		res.jsonp(data);
 	});
 };
 
-app.get('/get_lunches', getLunches);
+app.get('/get_lunches', newGet);
 
 var clearCache = function(req, res) {
+	if (!req.query.restaurant) {
+		res.status(401).jsonp('Please provide restaurant ("?restaurant=<name>")');
+	};
 	weekInfo = {};
 	res.send('Cache was cleared!');
 };
