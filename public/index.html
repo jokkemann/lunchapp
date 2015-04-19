@@ -8,9 +8,14 @@
 <body ng-app="luncheon">
 
 	<div class="container">
-		<h1>Veckans lunch p&aring; Edison</h1>
-
+		<h1>Veckans lunch</h1>
 		<div ng-controller="LunchCtrl">
+			<nav>
+				<ul class="nav">
+					<li><a href="#" ng-click="getLunches('edison')">Edison</a></li>
+					<li><a href="#" ng-click="getLunches('plockepinn');">Plockepinn</a></li>
+				</ul>
+			</nav>
 			<ul class="list-unstyled">
 				<li ng-repeat="item in lunchItems">
 					<h4>{{item.day | uppercase}}</h4>

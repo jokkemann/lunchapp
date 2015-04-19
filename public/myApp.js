@@ -1,8 +1,6 @@
 angular.module('luncheon', []).
 controller('LunchCtrl', function($scope, $http) {
-	$http.get('get_lunches').success(function(it) {
-		$scope.lunchItems = it;
-	});
+	getLunches('plockepinn');
 	$scope.isArray = function (v) {
 		if (!Array.isArray){
 			Array.isArray = function(arg) {
@@ -11,5 +9,13 @@ controller('LunchCtrl', function($scope, $http) {
 		}
 
 		return Array.isArray(v);
+	};
+
+	$scope.getLunches = getLunches;
+
+	function getLunches(restaurant) {
+		$http.get('get_lunches', { params: {restaurant: restaurant} }).success(function (it) {
+			$scope.lunchItems = it;
+		});
 	}
 });
