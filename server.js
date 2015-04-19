@@ -16,11 +16,11 @@ if (process.env.http_proxy !== undefined) {
 }
 
 // Static files (.html, .css, .js et c)
-app.use(express.static(__dirname));
+app.use(express.static('public'));
 
 // Respond with the index.html file if root is requested 
 app.get('/', function(req, res) {
-	res.sendfile('index.html');
+	res.sendFile('index.html');
 });
 
 var parseLunches = function(body) {
