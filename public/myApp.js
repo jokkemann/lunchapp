@@ -1,6 +1,7 @@
 angular.module('luncheon', []).
 controller('LunchCtrl', function($scope, $http) {
-	getLunches('plockepinn');
+	//getLunches('plockepinn');
+	$scope.lunchItems = {};
 	$scope.isArray = function (v) {
 		if (!Array.isArray){
 			Array.isArray = function(arg) {

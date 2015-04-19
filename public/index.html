@@ -17,8 +17,11 @@
 					<li><a href="#" ng-click="getLunches('rebell');">Rebell</a></li>
 				</ul>
 			</nav>
-			<ul class="list-unstyled">
-				<li ng-repeat="item in lunchItems">
+			<div ng-if="lunchItems.link">
+				<p><a href="{{lunchItems.link}}">{{lunchItems.link}}</a></p>
+			</div>
+			<ul class="list-unstyled" ng-if="lunchItems.lunches.length > 0">
+				<li ng-repeat="item in lunchItems.lunches">
 					<h4>{{item.day | uppercase}}</h4>
 					<div ng-if="isArray(item.info)">
 						<table class="table table-condensed">
