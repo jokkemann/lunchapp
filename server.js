@@ -49,7 +49,7 @@ var clearCache = function(req, res) {
 app.get('/clear_cache', clearCache);
 
 // Start the server
-var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0";
 server = app.listen(port, ip, function() {
 	console.log('Listening on port %d', server.address().port);
